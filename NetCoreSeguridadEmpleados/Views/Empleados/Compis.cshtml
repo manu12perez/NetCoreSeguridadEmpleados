@@ -1,0 +1,60 @@
+﻿@model IEnumerable<NetCoreSeguridadEmpleados.Models.Empleado>
+
+@{
+    ViewData["Title"] = "Compis";
+}
+
+<h1>Compis</h1>
+
+@if(Context.User.IsInRole("PRESIDENTE") == true || Context.User.IsInRole("DIRECTOR") == true){
+    <form method="post">
+        <label>Incremento salarial</label>
+        <input type="text" name="incremento" class="form-control" />
+        <button class="btn  btn-info">
+            A subir salarios!!!
+        </button>
+    </form>
+}
+
+<table class="table table-warning">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdEmpleado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oficio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Departamento)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEmpleado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Oficio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Departamento)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
