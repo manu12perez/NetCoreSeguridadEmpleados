@@ -18,6 +18,8 @@ namespace NetCoreSeguridadEmpleados.Filters
                 context.RouteData.Values["controller"].ToString();
             string action = 
                 context.RouteData.Values["action"].ToString();
+            var id = 
+                context.RouteData.Values["id"];
 
             ITempDataProvider provider = 
                 context.HttpContext.RequestServices.GetService<ITempDataProvider>();
@@ -28,6 +30,16 @@ namespace NetCoreSeguridadEmpleados.Filters
             TempData["controller"] = controller;
             TempData["action"] = action;
 
+            if(id != null)
+            {
+                TempData["id"] = id.ToString();
+            }
+            else
+            {
+                //ELIMINAMOS LA KEY DEL ID SI NO VIENE NADA
+                TempData.Remove("id");
+            }
+
             //GUARDAMOS EL TEMPDATA QUE ACABAMOS DE RECUPERAR DENTRO DE LA APP
             provider.SaveTempData(context.HttpContext, TempData);
 
@@ -36,16 +48,16 @@ namespace NetCoreSeguridadEmpleados.Filters
             {
                 context.Result = this.GetRoute("Managed", "Login");
             }
-            else
-            {
-                //COMPROBAMOS LOS ROLES DE ACCESO
-                if (user.IsInRole("PRESIDENTE") == false
-                    && user.IsInRole("DIRECTOR") == false
-                    && user.IsInRole("ANALISTA") == false)
-                {
-                    context.Result = this.GetRoute("Managed", "ErrorAcceso");
-                }
-            }
+            //else
+            //{
+                  //COMPROBAMOS LOS ROLES DE ACCESO
+            //    if (user.IsInRole("PRESIDENTE") == false
+            //        && user.IsInRole("DIRECTOR") == false
+            //        && user.IsInRole("ANALISTA") == false)
+            //    {
+            //        context.Result = this.GetRoute("Managed", "ErrorAcceso");
+            //    }
+            //}
         }
 
         //TENDREMOS MULTIPLES REDIRECCIONES, POR LO QUE NOS CREAMOS UN METODO

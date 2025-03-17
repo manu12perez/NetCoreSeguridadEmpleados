@@ -59,6 +59,16 @@ namespace NetCoreSeguridadEmpleados.Controllers
                     new Claim("Departamento", empleado.Departamento.ToString());
                 identity.AddClaim(claimDept);
 
+                //INCLUIMOS UN CLAIM DE ADMIN A CUALQUIER EMPLEADO 
+                //AL AZAR (ARROYO-7499)
+                if(empleado.IdEmpleado == 7499)
+                {
+                    //CREAMOS UN CLAIM
+                    Claim claimAdmin =
+                        new Claim("Admin", "Soy el super jefe de la empresa");
+                    identity.AddClaim(claimAdmin);
+                }
+
                 //COMO POR AHORA, NO VAMOS A UTILIZAR ROLES NO LO HACEMOS
                 ClaimsPrincipal userPrincipal =
                     new ClaimsPrincipal(identity);
@@ -70,7 +80,15 @@ namespace NetCoreSeguridadEmpleados.Controllers
                 string controller = TempData["controller"].ToString();
                 string action = TempData["action"].ToString();
 
-                return RedirectToAction(action, controller);
+                if (TempData["id"] != null)
+                {
+                    string id = TempData["id"].ToString();
+                    return RedirectToAction(action, controller, new { id = id });
+                }
+                else
+                {
+                    return RedirectToAction(action, controller);
+                }                
             }
             else
             {

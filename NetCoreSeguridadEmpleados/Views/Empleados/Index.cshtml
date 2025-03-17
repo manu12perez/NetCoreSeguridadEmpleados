@@ -36,12 +36,12 @@
                 Departamento: <b>@emp.Departamento</b>
             </td>
             <td>
-                    <a asp-action="Details"
-                        asp-controller="Empleados"
-                        asp-route-idempleado="@emp.IdEmpleado"
-                        class="btn btn-info">
-                        Details
-                    </a>
+                <a asp-action="Details"
+                    asp-controller="Empleados"
+                    asp-route-id="@emp.IdEmpleado"
+                    class="btn btn-info">
+                    Details
+                </a>
             </td>
         </tr>
 }
